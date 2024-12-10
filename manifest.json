@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "尚品宅配小工具",
+  "version": "1.0.0",
+  "action": { "default_popup": "index.html" }
+}
