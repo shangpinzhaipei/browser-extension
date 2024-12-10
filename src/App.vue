@@ -1,21 +1,34 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, watch } from 'vue'
+import { input } from './components'
+
+const search = ref()
+const test = ref()
+
+watch(search, searchCustomerId)
+
+function searchCustomerId() {
+  // const table = document.querySelector('title')
+  document.body.append('1231')
+  test.value = document.querySelector('div')?.id
+}
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div>
+    <input
+      v-model="search"
+      :class="input"
+      type="text"
+      placeholder="输入客户号"
+    >
+    <span>{{ test ?? "无" }}</span>
+  </div>
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family:Arial, Helvetica, sans-serif;
+  min-width: 300px;
 }
 </style>
