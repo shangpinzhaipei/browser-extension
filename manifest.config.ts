@@ -2,6 +2,8 @@ import { defineManifest } from '@crxjs/vite-plugin'
 // @ts-ignore
 import packageJson from './package.json'
 
+const matches = ['*://admxt.yfway.com/*', '*://*.google.com/*']
+
 const semver = packageJson.version as string
 
 const [major, minor, patch, release] = semver.split('-').flatMap(item => item.split('.'))
@@ -17,13 +19,11 @@ export default defineManifest(async () => ({
   version_name: versionName,
   action: { default_popup: 'index.html' },
   content_scripts: [{
-    js: ['src/bootstrap.js'],
-    matches: ['*://admxt.yfway.com/*'],
+    js: ['src/bootstrap.ts'],
+    matches,
   }],
-  permissions: ['webRequest'],
-  host_permissions: [
-    '*://admxt.yfway.com/*',
-  ],
+  permissions: ['webRequest', 'tabs'],
+  host_permissions: matches,
   background: {
     service_worker: 'src/core.ts',
     scripts: ['src/core.ts'],

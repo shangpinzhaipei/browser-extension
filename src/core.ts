@@ -115,3 +115,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
 chrome.webRequest.onResponseStarted.addListener(onResponseStarted, {
   urls: [target],
 })
+
+chrome.tabs.query({
+  active: true,
+}).then(([tab]) => {
+  const { id, url } = tab
+  console.info(url, id)
+
+  // chrome.tabs.connect(id)
+})

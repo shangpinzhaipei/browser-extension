@@ -11,7 +11,6 @@ function searchCustomerId() {
   // const table = document.querySelector('title')
   document.body.append('1231')
   test.value = document.querySelector('div')?.id
-  console.info('fk')
 }
 </script>
 
