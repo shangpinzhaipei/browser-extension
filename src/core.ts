@@ -2,6 +2,11 @@ import { computed, reactive, ref } from 'vue'
 
 const target = import.meta.env.VITE_TARGET_BASE_URL + import.meta.env.VITE_TARGET_PATH
 
+console.info(`监听目标: ${target}`)
+
+const activatedTabId = ref<number>()
+const tab = ref<chrome.tabs.Tab>()
+
 function literalObjectToFormData(obj: object | undefined) {
   const formData = new FormData()
 
@@ -90,7 +95,18 @@ function useWebRequest() {
     const webRequestURL = new URL(`${baseURL}?${searchParams.toString()}`)
 
     const response = await fetch(webRequestURL, requestInit)
-    const text = await response.text()
+    // const tabInfo = await chrome.tabs.get(tab.value?.id ?? 0)
+    // console.info(await response.clone().text())
+    console.info(`send tab id: ${tab.value?.id}`)
+    const blob = await response.clone().blob()
+
+    const reader = new FileReader()
+    reader.addEventListener('loadend', () => {
+      chrome.tabs.sendMessage(tab.value?.id ?? 0, reader.result)
+    })
+
+    reader.readAsText(blob, 'gb2312')
+    // sendMessage(response.clone())
   }
 
   return {
@@ -116,7 +132,6 @@ chrome.webRequest.onResponseStarted.addListener(onResponseStarted, {
   urls: [target],
 })
 
-const tab = ref<chrome.tabs.Tab>()
 async function buildConnection() {
   const tabs = await chrome.tabs.query({
     url: target,
@@ -134,7 +149,12 @@ async function buildConnection() {
 
 // 只有在目标标签被激活时才能建立连接或者发送消息，否则会提示消息接受端不存在.
 chrome.tabs.onActivated.addListener(async ({ tabId }) => {
-  sendMessage(tabId, { message: 'fk' }, 'connect')
+  activatedTabId.value = tabId
+
+  if (activatedTabId.value === tab.value?.id) {
+    console.info(`已切换到目标标签`)
+  }
+
   if (tab.value) {
     return
   }
@@ -142,10 +162,19 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
   console.log('连接已初始化')
 })
 
-function sendMessage(tabId: number, message: unknown, type?: 'tab' | 'connect') {
+/**
+ * 发送消息的包装函数
+ * @param message 要发送的内容
+ * @param type 使用`tabs.sendMessage()`一次性发送还是使用`connect.postMessage()`连接发送. 默认为`tab`
+ */
+async function sendMessage(message: unknown, type?: 'tab' | 'connect') {
   type ??= 'tab'
 
-  if (tab.value?.id !== tabId) {
+  if (!tab.value?.id) {
+    await buildConnection()
+  }
+
+  if (!tab.value?.id || tab.value?.id !== activatedTabId.value) {
     return
   }
 
