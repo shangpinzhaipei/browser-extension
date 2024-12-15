@@ -1,6 +1,6 @@
 import { computed, reactive, ref } from 'vue'
 
-const target = '*://admxt.yfway.com/*.php?*'
+const target = import.meta.env.VITE_TARGET_BASE_URL + import.meta.env.VITE_TARGET_PATH
 
 function literalObjectToFormData(obj: object | undefined) {
   const formData = new FormData()
@@ -116,11 +116,48 @@ chrome.webRequest.onResponseStarted.addListener(onResponseStarted, {
   urls: [target],
 })
 
-chrome.tabs.query({
-  active: true,
-}).then(([tab]) => {
-  const { id, url } = tab
-  console.info(url, id)
+const tab = ref<chrome.tabs.Tab>()
+async function buildConnection() {
+  const tabs = await chrome.tabs.query({
+    url: target,
+  })
+  const [t] = tabs ?? []
+  tab.value = t ?? {}
 
-  // chrome.tabs.connect(id)
+  if (!t) {
+    throw new Error(`无可用标签`)
+  }
+  else if (!t.id) {
+    throw new Error(`标签id不可用`)
+  }
+}
+
+// 只有在目标标签被激活时才能建立连接或者发送消息，否则会提示消息接受端不存在.
+chrome.tabs.onActivated.addListener(async ({ tabId }) => {
+  sendMessage(tabId, { message: 'fk' }, 'connect')
+  if (tab.value) {
+    return
+  }
+  await buildConnection()
+  console.log('连接已初始化')
 })
+
+function sendMessage(tabId: number, message: unknown, type?: 'tab' | 'connect') {
+  type ??= 'tab'
+
+  if (tab.value?.id !== tabId) {
+    return
+  }
+
+  if (type === 'tab') {
+    chrome.tabs.sendMessage(tab.value.id, message)
+  }
+  else if (type === 'connect') {
+    // 如果页面未加载完毕则会发送失败(提示接受端不存在)
+    // TODO: 考虑包装为Promise
+    chrome.tabs.connect(tab.value.id)?.postMessage(message)
+  }
+  else {
+    throw new TypeError(`未知的类型: ${type}`)
+  }
+}

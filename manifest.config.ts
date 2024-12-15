@@ -22,7 +22,7 @@ export default defineManifest(async () => ({
     js: ['src/bootstrap.ts'],
     matches,
   }],
-  permissions: ['webRequest', 'tabs'],
+  permissions: ['webRequest', 'tabs', 'activeTab'],
   host_permissions: matches,
   background: {
     service_worker: 'src/core.ts',
