@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@crxjs/vite-plugin':
-        specifier: 2.0.0-beta.28
-        version: 2.0.0-beta.28
       '@vueuse/core':
         specifier: ^12.0.0
         version: 12.0.0(typescript@4.9.5)
@@ -27,6 +24,9 @@ importers:
       '@antfu/eslint-config':
         specifier: ^3.11.2
         version: 3.12.0(@typescript-eslint/utils@8.18.0(eslint@9.17.0(jiti@2.4.1))(typescript@4.9.5))(@vue/compiler-sfc@3.5.13)(eslint@9.17.0(jiti@2.4.1))(typescript@4.9.5)
+      '@crxjs/vite-plugin':
+        specifier: 2.0.0-beta.28
+        version: 2.0.0-beta.28
       '@types/chrome':
         specifier: ^0.0.287
         version: 0.0.287

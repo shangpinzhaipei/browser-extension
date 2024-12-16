@@ -13,7 +13,6 @@
     "bumpp": "bumpp"
   },
   "dependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.28",
     "@vueuse/core": "^12.0.0",
     "element-plus": "^2.9.1",
     "pinia": "^2.3.0",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
+    "@crxjs/vite-plugin": "2.0.0-beta.28",
     "@types/chrome": "^0.0.287",
     "@types/node": "^22.10.2",
     "@vitejs/plugin-vue": "^2.3.4",
