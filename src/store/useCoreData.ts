@@ -28,7 +28,7 @@ export const useCoreData = defineStore('coreData', () => {
     }
 
     table.value = tableElement
-    // test
+
     const collection = table.value?.rows
     const [header, ...body] = Array.from(collection)
 
@@ -37,8 +37,6 @@ export const useCoreData = defineStore('coreData', () => {
     }
 
     const parsedHeaders = tableRowToArray(header)
-    headers.value = parsedHeaders
-
     const result = body.map((value) => {
       const parsedBody = tableRowToArray(value)
       const obj = {} as Data
@@ -54,6 +52,7 @@ export const useCoreData = defineStore('coreData', () => {
     })
 
     data.value = result
+    headers.value = parsedHeaders
   }
 
   function queryCustomer(id: string[] | string, headers?: Header[]) {

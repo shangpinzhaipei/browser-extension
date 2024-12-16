@@ -19,13 +19,13 @@ export default defineManifest(async () => ({
   version_name: versionName,
   action: { default_popup: 'index.html' },
   content_scripts: [{
-    js: ['src/bootstrap.ts'],
+    js: ['src/content-script.ts'],
     matches,
   }],
   permissions: ['webRequest', 'tabs', 'activeTab'],
   host_permissions: matches,
   background: {
-    service_worker: 'src/core.ts',
-    scripts: ['src/core.ts'],
+    service_worker: 'src/background-script.ts',
+    scripts: ['src/background-script.ts'],
   },
 }))
