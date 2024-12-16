@@ -1,5 +1,5 @@
 {
-  "name": "shangpin-helper",
+  "name": "@shangpinzhaipei/browser-extension",
   "type": "module",
   "version": "0.1.0",
   "private": true,
