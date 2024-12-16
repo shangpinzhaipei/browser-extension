@@ -22,6 +22,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
     "@types/chrome": "^0.0.287",
+    "@types/node": "^22.10.2",
     "@vitejs/plugin-vue": "^2.3.4",
     "autoprefixer": "^10.4.20",
     "bumpp": "^9.9.1",

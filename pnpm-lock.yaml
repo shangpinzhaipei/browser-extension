@@ -30,9 +30,12 @@ importers:
       '@types/chrome':
         specifier: ^0.0.287
         version: 0.0.287
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.10.2
       '@vitejs/plugin-vue':
         specifier: ^2.3.4
-        version: 2.3.4(vite@5.4.11)(vue@3.5.13(typescript@4.9.5))
+        version: 2.3.4(vite@5.4.11(@types/node@22.10.2))(vue@3.5.13(typescript@4.9.5))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
@@ -56,7 +59,7 @@ importers:
         version: 4.9.5
       vite:
         specifier: ^5.4.11
-        version: 5.4.11
+        version: 5.4.11(@types/node@22.10.2)
       vue-tsc:
         specifier: ^0.34.7
         version: 0.34.17(typescript@4.9.5)
@@ -578,6 +581,9 @@ packages:
 
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
+
+  '@types/node@22.10.2':
+    resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -2244,6 +2250,9 @@ packages:
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
 
+  undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
+
   undici@6.21.0:
     resolution: {integrity: sha512-BUgJXc752Kou3oOIuU1i+yZZypyZRqNPW0vqoMPl8VaoalSfeR0D8/t4iAS3yirs79SSMTxTag+ZC86uswv+Cw==}
     engines: {node: '>=18.17'}
@@ -2831,6 +2840,10 @@ snapshots:
 
   '@types/ms@0.7.34': {}
 
+  '@types/node@22.10.2':
+    dependencies:
+      undici-types: 6.20.0
+
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/unist@3.0.3': {}
@@ -2916,9 +2929,9 @@ snapshots:
       '@typescript-eslint/types': 8.18.0
       eslint-visitor-keys: 4.2.0
 
-  '@vitejs/plugin-vue@2.3.4(vite@5.4.11)(vue@3.5.13(typescript@4.9.5))':
+  '@vitejs/plugin-vue@2.3.4(vite@5.4.11(@types/node@22.10.2))(vue@3.5.13(typescript@4.9.5))':
     dependencies:
-      vite: 5.4.11
+      vite: 5.4.11(@types/node@22.10.2)
       vue: 3.5.13(typescript@4.9.5)
 
   '@vitest/eslint-plugin@1.1.16(@typescript-eslint/utils@8.18.0(eslint@9.17.0(jiti@2.4.1))(typescript@4.9.5))(eslint@9.17.0(jiti@2.4.1))(typescript@4.9.5)':
@@ -4839,6 +4852,8 @@ snapshots:
 
   ufo@1.5.4: {}
 
+  undici-types@6.20.0: {}
+
   undici@6.21.0: {}
 
   unist-util-is@6.0.0:
@@ -4879,12 +4894,13 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite@5.4.11:
+  vite@5.4.11(@types/node@22.10.2):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.49
       rollup: 4.28.1
     optionalDependencies:
+      '@types/node': 22.10.2
       fsevents: 2.3.3
 
   vue-demi@0.14.10(vue@3.5.13(typescript@4.9.5)):
