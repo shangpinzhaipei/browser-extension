@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "types": ["element-plus/global"],
+    "types": ["element-plus/global", "@types/chrome"],
     "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,
