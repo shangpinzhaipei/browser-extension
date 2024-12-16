@@ -39,6 +39,31 @@ function useWebRequest() {
     return !/ajax/i.test(baseURL.pathname) && !baseURL.searchParams.has('webRequest', '1')
   })
 
+  const cloneRequest = async () => {
+    if (!enable.value) {
+      return
+    }
+    const [baseURL] = url.value.split('?')
+    const searchParams = new URL(url.value).searchParams
+    searchParams.append('webRequest', '1')
+
+    const webRequestURL = new URL(`${baseURL}?${searchParams.toString()}`)
+
+    const response = await fetch(webRequestURL, requestInit)
+    // const tabInfo = await chrome.tabs.get(tab.value?.id ?? 0)
+    // console.info(await response.clone().text())
+    console.info(`send tab id: ${tab.value?.id}`)
+    const blob = await response.clone().blob()
+
+    const reader = new FileReader()
+    reader.addEventListener('loadend', () => {
+      chrome.tabs.sendMessage(tab.value?.id ?? 0, reader.result)
+    })
+
+    reader.readAsText(blob, 'gb2312')
+    // sendMessage(response.clone())
+  }
+
   const onBeforeRequest = (detail: chrome.webRequest.WebRequestBodyDetails) => {
     // 如果`requestBody`不可用, 则尝试从url中提取参数.
     if (!detail.requestBody) {
@@ -82,31 +107,8 @@ function useWebRequest() {
     }
 
     requestInit.headers = headers
-  }
 
-  const onResponseStarted = async () => {
-    if (!enable.value) {
-      return
-    }
-    const [baseURL] = url.value.split('?')
-    const searchParams = new URL(url.value).searchParams
-    searchParams.append('webRequest', '1')
-
-    const webRequestURL = new URL(`${baseURL}?${searchParams.toString()}`)
-
-    const response = await fetch(webRequestURL, requestInit)
-    // const tabInfo = await chrome.tabs.get(tab.value?.id ?? 0)
-    // console.info(await response.clone().text())
-    console.info(`send tab id: ${tab.value?.id}`)
-    const blob = await response.clone().blob()
-
-    const reader = new FileReader()
-    reader.addEventListener('loadend', () => {
-      chrome.tabs.sendMessage(tab.value?.id ?? 0, reader.result)
-    })
-
-    reader.readAsText(blob, 'gb2312')
-    // sendMessage(response.clone())
+    cloneRequest()
   }
 
   return {
@@ -115,11 +117,10 @@ function useWebRequest() {
     enable,
     onBeforeRequest,
     onBeforeSendHeaders,
-    onResponseStarted,
   }
 }
 
-const { onBeforeRequest, onBeforeSendHeaders, onResponseStarted } = useWebRequest()
+const { onBeforeRequest, onBeforeSendHeaders } = useWebRequest()
 // chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, {
 //   urls: [target],
 // }, ['requestBody'])
@@ -127,10 +128,6 @@ const { onBeforeRequest, onBeforeSendHeaders, onResponseStarted } = useWebReques
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, {
   urls: [target],
 }, ['requestHeaders', 'extraHeaders'])
-
-chrome.webRequest.onResponseStarted.addListener(onResponseStarted, {
-  urls: [target],
-})
 
 async function buildConnection() {
   const tabs = await chrome.tabs.query({
