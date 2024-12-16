@@ -2,7 +2,10 @@
 import { useDraggable } from '@vueuse/core'
 // import {} from ''
 import { onMounted, ref, watch } from 'vue'
-import { input } from './components'
+import { badge, button, input } from './components'
+import IconDrag from './icons/IconDrag.vue'
+import IconHide from './icons/IconHide.vue'
+import IconSettings from './icons/IconSettings.vue'
 import { type Data, type Header, useCoreData } from './store/useCoreData'
 
 const { init, queryCustomer } = useCoreData()
@@ -32,15 +35,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="container" ref="containerRef" :style="style" style="position: absolute;">
-    <div>
-      <textarea
+  <header id="container" ref="containerRef" class="p-4" :style="style" style="position: absolute;">
+    <div class="grid gap-2 grid-cols-[repeat(5,_min-content)] py-2">
+      <input
         v-model="search"
-        :class="input"
         type="text"
+        :class="input"
+        class="min-w-40"
         placeholder="输入客户号"
-      />
-      <button>查询</button>
+      >
+      <span :class="badge" class="whitespace-nowrap text-white">可用</span>
+
+      <button :class="button">
+        <IconHide />
+      </button>
+
+      <button :class="button">
+        <IconSettings />
+      </button>
+
+      <button :class="button">
+        <IconDrag />
+      </button>
     </div>
 
     <el-table :data="data" style="width: 100%">
@@ -51,7 +67,7 @@ onMounted(() => {
         :label="h"
       />
     </el-table>
-  </div>
+  </header>
 </template>
 
 <style>
