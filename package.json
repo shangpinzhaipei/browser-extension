@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "clean": "rimraf node_modules pnpm-lock.yaml dist",
-    "bumpp": "bumpp"
+    "bumpp": "bumpp",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@vueuse/core": "^12.0.0",
