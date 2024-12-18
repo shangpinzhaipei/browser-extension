@@ -30,9 +30,6 @@ function useWebRequest() {
   })
 
   const enable = computed(() => {
-    if (!URL.canParse(url.value)) {
-      return false
-    }
 
     const baseURL = new URL(url.value)
 
