@@ -62,10 +62,10 @@ export const useCoreData = defineStore('coreData', () => {
       return ids.split('\n').map(id => id.trim())
     }
 
-    const parsedId = Array.isArray(id) ? id : parser(id)
+    const parsedIds = Array.isArray(id) ? id : parser(id)
 
     const filters = data.value
-      .filter(item => parsedId.includes(item['客户号'] ?? ''))
+      .filter(item => parsedIds.includes(item['客户号'] ?? ''))
       .map((item) => {
         const f = {} as Data
         for (const header of headers) {
@@ -75,7 +75,7 @@ export const useCoreData = defineStore('coreData', () => {
         return f
       })
 
-    return [filters, headers] as const
+    return [filters, headers, parsedIds] as const
   }
 
   function init() {
