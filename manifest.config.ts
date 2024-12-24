@@ -2,7 +2,7 @@ import { defineManifest } from '@crxjs/vite-plugin'
 // @ts-ignore
 import packageJson from './package.json'
 
-const matches = ['*://admxt.yfway.com/*', '*://*.google.com/*']
+const matches = ['*://admxt.yfway.com/*']
 
 const semver = packageJson.version as string
 
